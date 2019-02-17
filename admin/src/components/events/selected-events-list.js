@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { List } from 'react-virtualized'
+
 import { selectedEventsSelector } from '../../ducks/events'
 import SelectedEventCard from './selected-event-card'
 
@@ -7,13 +9,22 @@ class SelectedEventsList extends Component {
   static propTypes = {}
 
   render() {
-    return <div>{this.eventList()}</div>
+    return (
+      <List
+        width={400}
+        height={300}
+        rowCount={this.props.events.length}
+        rowHeight={150}
+        rowRenderer={this.rowRenderer}
+      />
+    )
   }
 
-  eventList = () =>
-    this.props.events.map((event) => (
-      <SelectedEventCard key={event.id} event={event} />
-    ))
+  rowRenderer = ({ index, key, style }) => (
+    <div key={key} style={style}>
+      <SelectedEventCard event={this.props.events[index]} />
+    </div>
+  )
 }
 
 export default connect((state) => ({
