@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { Motion, spring, TransitionMotion } from 'react-motion'
 import { connect } from 'react-redux'
 import { List } from 'react-virtualized'
+
 import { selectedEventsSelector } from '../../ducks/events'
 import SelectedEventCard from './selected-event-card'
 
@@ -21,9 +23,18 @@ class SelectedEventsList extends Component {
   }
 
   rowRenderer = ({ index, key, style }) => (
-    <div key={key} style={style}>
-      <SelectedEventCard event={this.props.events[index]} />
-    </div>
+    <Motion
+      key={key}
+      style={{ scale: spring(1, { stiffness: 170, damping: 26 }), style }}
+      defaultStyle={{ scale: 0.1 }}
+    >
+      {(interpolatedStyle) => (
+        <SelectedEventCard
+          scale={interpolatedStyle.scale}
+          event={this.props.events[index]}
+        />
+      )}
+    </Motion>
   )
 }
 

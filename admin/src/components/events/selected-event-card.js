@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { DragSource, DropTarget } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 import { connect } from 'react-redux'
+
 import { addPersonToEvent } from '../../ducks/events'
 import { peopleByIdsSelector } from '../../ducks/people'
 import DragPreview from './event-drag-preview'
@@ -14,7 +15,7 @@ class SelectedEventCard extends Component {
   }
 
   render() {
-    const { event, dropTarget, dragSource, canDrop, isOver } = this.props
+    const { event, dropTarget, dragSource, canDrop, isOver, scale } = this.props
     const borderColor = canDrop ? (isOver ? 'red' : 'green') : 'black'
 
     return dragSource(
@@ -24,7 +25,8 @@ class SelectedEventCard extends Component {
             width: 400,
             height: 150,
             border: `1px solid ${borderColor}`,
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            transform: `scale(${scale})`
           }}
         >
           <h3>{event.title}</h3>
